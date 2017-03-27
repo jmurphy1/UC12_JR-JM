@@ -1,29 +1,8 @@
-
-function between(string, start, end) {
-    var startAt = string.indexOf(start);
-
-    if (startAt == -1) {
-        throw new Error("No start found: " + start);
-    }
-
-    startAt += start.length;
-    var endAt = string.indexOf(end, startAt);
-
-    if (endAt == -1) {
-        throw new Error("No end found: " + end);
-    }
-
-    return string.slice(startAt, endAt);
-}
-
-
-function isNumeric(number) {
+function isANumber(number) {
     if (!isNaN(number) == true && (~number.indexOf("e")) == false) {
         return true
     }
     else {
-        var audio = new Audio('error.mp3');
-        audio.play();
         return false;
     }
 }
@@ -34,9 +13,9 @@ function getAreaCode(phoneNum) {
     var areaCode;
 
     try {
-        areaCode = between(phoneNum, "(", ")");
+        areaCode = phoneNum.slice(1,4);
         areaCode = areaCode.trim();
-        if (areaCode.length == 3 && isNumeric(areaCode) == true) {
+        if (areaCode.length == 3 && isANumber(areaCode) == true && phoneNum.slice(0,1) != 1 && phoneNum.slice(0,1) != 0) {
             return areaCode;
         } else {
             throw new Error("Invalid area code: " + areaCode);
@@ -52,7 +31,7 @@ function getLineCode(phoneNum) {
 
     try {
         lineCode = phoneNum.slice(9);
-        if (lineCode.length == 4 && isNumeric(lineCode) == true) {
+        if (lineCode.length == 4 && isANumber(lineCode) == true) {
             return lineCode
         } else {
             throw new Error("Invalid line code: " + lineCode);
@@ -67,9 +46,9 @@ function getCO(phoneNum) {
     var coCode;
 
     try {
-        coCode = between(phoneNum, ")", "-");
+        coCode = phoneNum.slice(5,8);
         coCode = coCode.trim();
-        if (coCode.length == 3 && isNumeric(coCode)) {
+        if (coCode.length == 3 && isANumber(coCode) && coCode.slice(0,1) != 1 && coCode.slice(0,1) != 0) {
             return coCode;
         } else {
             throw new Error("Invalid CO code: " + coCode);
